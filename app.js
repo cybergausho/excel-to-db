@@ -98,11 +98,19 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     for (const row of worksheet) {
       // Verificar cómo se etiquetan las columnas
       switch (row['W']) {
-        case 'SI':
+        case 'SI': case 'Si': case 'si':
           validbool= 1;
           break;
           default:
             validbool=0;
+          break;
+      }
+      switch (row['X']) {
+        case 'SI': case 'Si': case 'si':
+          dictadbool= 1;
+          break;
+          default:
+            dictadbool=0;
           break;
       }
       await Data.create({
@@ -129,7 +137,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
         cantidad_horas: row['U'],
         tipo_certificacion: row['V'],
         validacion: validbool,
-        dictado: row['X'],
+        dictado: dictadbool,
         observacion_no_dictado: row['Y'],
         cantidad_vacantes: row['Z'],
         capacitado_real: row['AA'],
